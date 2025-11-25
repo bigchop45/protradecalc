@@ -1,0 +1,10 @@
+{
+    "manifest_version": 3,
+    "name": "Pro Trade Command Center",
+    "version": "2.1",
+    "description": "SMC-focused Risk Management and Journal Logger.",
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "permissions": ["clipboardWrite"]
+}

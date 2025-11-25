@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Trade Command Center V6</title>
+    <style>
+        /* CSS STYLES */
+        body { font-family: 'Segoe UI', Roboto, Helvetica, sans-serif; background-color: #121212; color: #e0e0e0; padding: 20px; display: flex; justify-content: center; width: 680px; }
+        .container { width: 100%; max-width: 700px; background-color: #1e1e1e; padding: 30px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.6); border: 1px solid #333; }
+        h2 { color: #4CAF50; text-align: center; margin-top: 0; margin-bottom: 20px; letter-spacing: 1px; }
+        h3 { color: #888; font-size: 0.85rem; text-transform: uppercase; border-bottom: 1px solid #333; padding-bottom: 5px; margin-top: 30px; margin-bottom: 15px; }
+        
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-size: 0.85rem; color: #aaa; font-weight: 600; }
+        input[type="number"] { width: 100%; padding: 12px; border: 1px solid #444; border-radius: 6px; background-color: #2c2c2c; color: #fff; font-size: 1.1rem; outline: none; box-sizing: border-box; }
+        input[type="number"]:focus { border-color: #4CAF50; }
+        
+        .radio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .radio-option { position: relative; }
+        .radio-option input { display: none; }
+        .radio-option span { display: flex; justify-content: center; align-items: center; padding: 12px; background: #2c2c2c; border: 1px solid #444; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.9rem; color: #aaa; transition: 0.2s; }
+        .radio-option input:checked + span { background: #4CAF50; color: #fff; border-color: #4CAF50; }
+        .radio-option input[value="SHORT"]:checked + span { background: #ff5252; border-color: #ff5252; }
+
+        .setup-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .setup-item { display: flex; align-items: center; background: #252526; padding: 8px; border-radius: 5px; border: 1px solid #333; cursor: pointer; transition: 0.2s; font-size: 0.75rem; }
+        .setup-item:hover { border-color: #555; background: #2a2a2a; }
+        .setup-item input { margin-right: 8px; accent-color: #4CAF50; transform: scale(1.1); cursor: pointer; }
+        .bad-setup input { accent-color: #ff5252; }
+        .bad-setup { border-color: #603030 !important; }
+        
+        .checklist { display: flex; flex-direction: column; gap: 8px; }
+        .check-item { display: flex; align-items: center; background: #252526; padding: 12px; border-radius: 6px; border: 1px solid #333; cursor: pointer; }
+        .check-item input { margin-right: 15px; transform: scale(1.5); accent-color: #4CAF50; }
+
+        .results-box { background-color: #252526; border: 1px solid #333; border-radius: 8px; padding: 20px; margin-top: 25px; }
+        .result-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .result-value { font-weight: bold; color: #fff; }
+        .val-green { color: #4CAF50; }
+        .val-red { color: #ff5252; }
+        .val-yellow { color: #ffd700; }
+        .val-blue { color: #00bfff; }
+        .journal-section { margin-top: 25px; background: #111; padding: 15px; border-radius: 6px; border: 1px dashed #555; }
+        .journal-text { font-family: monospace; color: #666; font-size: 0.8rem; white-space: pre-wrap; word-wrap: break-word; margin-bottom: 10px; }
+        .copy-btn { width: 100%; background-color: #333; color: white; padding: 12px; border: 1px solid #555; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .copy-btn:hover { background-color: #4CAF50; border-color: #4CAF50; }
+        .divider { background: #444; height: 1px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Pro Trade Command Center</h2>
+
+    <h3>1. Market Direction</h3>
+    <div class="radio-grid">
+        <label class="radio-option">
+            <input type="radio" name="direction" value="LONG" checked>
+            <span>LONG (Buy)</span>
+        </label>
+        <label class="radio-option">
+            <input type="radio" name="direction" value="SHORT">
+            <span>SHORT (Sell)</span>
+        </label>
+    </div>
+
+    <h3>2. Confluence & Red Flags</h3>
+    <div style="display: flex; gap: 15px;">
+        <div style="flex: 1;">
+            <h4 style="color:#4CAF50; font-size:0.9rem; margin-top:0;">✅ Technical Confluence</h4>
+            <div class="setup-grid" style="grid-template-columns: 1fr 1fr;">
+                <label class="setup-item"><input type="checkbox" name="setup" value="Bull Div"> Bull/Bear Div</label>
+                <label class="setup-item"><input type="checkbox" name="setup" value="Golden Pocket"> Golden Pocket</label>
+                <label class="setup-item"><input type="checkbox" name="setup" value=".786/.886 Fib"> .786/.886 Fib</label>
+                <label class="setup-item"><input type="checkbox" name="setup" value="Order Block"> Order Block</label>
+                <label class="setup-item"><input type="checkbox" name="setup" value="S&R Hit"> S&R Hit</label>
+                <label class="setup-item"><input type="checkbox" name="setup" value="Liq Sweep"> Liquidity Sweep</label>
+                <label class="setup-item"><input type="checkbox" name="setup" value="SFP"> SFP</label>
+                <label class="setup-item"><input type="checkbox" name="setup" value="13/15 EMA Cross"> 13/15 EMA</label>
+                <label class="setup-item"><input type="checkbox" name="setup" value="CHOCH at Key"> CHOCH</label>
+            </div>
+        </div>
+        <div style="flex: 1;">
+            <h4 style="color:#ffd700; font-size:0.9rem; margin-top:0;">⚡ Orderflow</h4>
+            <div class="setup-grid" style="grid-template-columns: 1fr;">
+                <label class="setup-item"><input type="checkbox" name="setup" value="OI Bullish"> OI Bullish</label>
+                <label class="setup-item"><input type="checkbox" name="setup" value="OB Thin"> OB Thin</label>
+                <label class="setup-item"><input type="checkbox" name="setup" value="Liquidation Block"> Liq Block</label>
+            </div>
+            <h4 style="color:#ff5252; font-size:0.9rem; margin-top:15px;">❌ Red Flags</h4>
+            <div class="setup-grid" style="grid-template-columns: 1fr;">
+                <label class="setup-item bad-setup"><input type="checkbox" name="setup" value="No OB Above"> No Sell OB</label>
+                <label class="setup-item bad-setup"><input type="checkbox" name="setup" value="More Liqs Below"> More Liqs Below</label>
+                <label class="setup-item bad-setup"><input type="checkbox" name="setup" value="OI Bearish"> OI Bearish</label>
+                <label class="setup-item bad-setup"><input type="checkbox" name="setup" value="FOMO"> FOMO</label>
+            </div>
+        </div>
+    </div>
+
+    <h3>3. The Math</h3>
+    <div class="input-group"><label>Account Balance ($)</label><input type="number" id="capital" value="10000"></div>
+    
+    <div style="display: flex; gap: 15px;">
+        <div class="input-group" style="flex:1"><label>Risk %</label><input type="number" id="riskPct" value="1"></div>
+        <div class="input-group" style="flex:1"><label>R:R Ratio</label><input type="number" id="rrRatio" value="4"></div>
+    </div>
+
+    <div class="input-group"><label>Entry Price</label><input type="number" id="entryPrice" value="92000"></div>
+    
+    <div style="display: flex; gap: 15px;">
+        <div class="input-group" style="flex:1"><label>Leverage (X)</label><input type="number" id="leverage" value="10"></div>
+        <div class="input-group" style="flex:1"><label>Commission (% of 1R)</label><input type="number" id="commission" value="5"></div>
+    </div>
+    
+    <div style="display: flex; gap: 15px;">
+        <div class="input-group" style="flex:1"><label>ATR Value</label><input type="number" id="atrValue" value="320"></div>
+        <div class="input-group" style="flex:1"><label>Multiplier</label><input type="number" id="atrMultiplier" value="2.5"></div>
+    </div>
+    
+    <div class="input-group"><label>TP1 Multiplier (BE Target)</label><input type="number" id="tp1Mult" value="1.0"></div>
+    
+    <h3>4. Final Gatekeeper</h3>
+    <div class="checklist">
+        <label class="check-item"><input type="checkbox" id="check1"><span><strong>Psychology:</strong> Risk accepted.</span></label>
+        <label class="check-item"><input type="checkbox" id="check2"><span><strong>Structure:</strong> Key level.</span></label>
+    </div>
+
+    <div class="results-box">
+        <div class="result-row"><span>Risk Amount (1R)</span><span class="result-value val-red" id="outRisk">$0.00</span></div>
+        <div class="result-row"><span>Total Fees</span><span class="result-value val-red" id="outFee">$0.00</span></div>
+        <div class="result-row"><span>Stop Distance</span><span class="result-value" id="outDist">0.00</span></div>
+        <div class="divider"></div>
+        <div class="result-row"><span style="font-size:1.2rem">POSITION SIZE</span><span class="result-value val-yellow" style="font-size:1.3rem" id="outSize">---</span></div>
+        <div class="result-row"><span>Margin Required</span><span class="result-value val-blue" id="outMargin">$0.00</span></div>
+        <div class="divider"></div>
+        <div class="result-row"><span>Stop Loss Price</span><span class="result-value val-red" id="outSL">---</span></div>
+        <div class="result-row"><span>TP1 Price (BE)</span><span class="result-value val-yellow" id="outTP1">---</span></div>
+        <div class="result-row"><span>Take Profit Price</span><span class="result-value val-green" id="outTP">---</span></div>
+        <div class="result-row"><span>Potential Profit</span><span class="result-value val-green" id="outReward">$0.00</span></div>
+    </div>
+
+    <div class="journal-section">
+        <div class="journal-text" id="journalString">Calculating...</div>
+        <button class="copy-btn">COPY TO CLIPBOARD</button>
+    </div>
+</div>
+
+<script src="calculator.js"></script>
+</body>
+</html>
